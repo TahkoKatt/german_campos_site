@@ -1,0 +1,73 @@
+backend:
+  name: git-gateway
+  branch: main # or master, depending on your default branch
+
+# Uncomment for local development
+# local_backend: true
+
+media_folder: "uploads" # Where uploaded images will be stored
+public_folder: "/uploads" # Path to access uploaded images
+
+collections:
+  # Projects Collection
+  - name: "projects"
+    label: "Projects"
+    folder: "data/projects"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    extension: "json"
+    format: "json"
+    fields:
+      - {label: "Title", name: "title", widget: "string", required: true}
+      - {label: "Date", name: "date", widget: "string", required: true, hint: "e.g., 2024 or March 2024"}
+      - {label: "Category", name: "category", widget: "select", options: ["sound-design", "cine", "installations", "music"], required: true}
+      - {label: "Description", name: "description", widget: "text", required: false}
+      - {label: "Slug", name: "slug", widget: "string", required: true, hint: "URL-friendly version of title (e.g., my-project-name)"}
+      - label: "Media"
+        name: "media"
+        widget: "list"
+        required: false
+        max: 16
+        summary: "{{fields.type}} - {{fields.url}}"
+        fields:
+          - {label: "Type", name: "type", widget: "select", options: ["youtube", "image", "audio"], required: true}
+          - {label: "URL or File", name: "url", widget: "string", required: false, hint: "For YouTube: paste full URL. For images/audio: use the image picker below or paste a URL"}
+          - {label: "Image File", name: "imageFile", widget: "image", required: false, hint: "Upload image here (for image type)"}
+          - {label: "Thumbnail (Audio only)", name: "thumbnail", widget: "image", required: false, hint: "Waveform image for audio projects"}
+
+  # Pages Collection
+  - name: "pages"
+    label: "Pages"
+    files:
+      - label: "Bio"
+        name: "bio"
+        file: "data/pages/bio.json"
+        extension: "json"
+        format: "json"
+        fields:
+          - {label: "Content", name: "body", widget: "markdown", required: true}
+      
+      - label: "Press"
+        name: "press"
+        file: "data/pages/press.json"
+        extension: "json"
+        format: "json"
+        fields:
+          - {label: "Content", name: "body", widget: "markdown", required: true}
+      
+      - label: "CV"
+        name: "cv"
+        file: "data/pages/cv.json"
+        extension: "json"
+        format: "json"
+        fields:
+          - {label: "Content", name: "body", widget: "markdown", required: true}
+      
+      - label: "Contact"
+        name: "contact"
+        file: "data/pages/contact.json"
+        extension: "json"
+        format: "json"
+        fields:
+          - {label: "Content", name: "body", widget: "markdown", required: true}
